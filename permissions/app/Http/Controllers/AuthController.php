@@ -39,4 +39,16 @@ class AuthController extends Controller
             return redirect('/login');
         }
     }
+
+    public function registerPage() {
+        return view('auth.register');
+    }
+
+    public function loginPage() {
+        return view('auth.login');
+    }
+
+    public function ForgotPasswordPage() {
+        return view('auth.forgot-password');
+    }
 }

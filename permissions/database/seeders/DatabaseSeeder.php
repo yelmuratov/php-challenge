@@ -41,15 +41,17 @@ class DatabaseSeeder extends Seeder
         $role1 = Role::create(['name' => 'Hr']);
         $role2 = Role::create(['name' => 'accountant']);
         $role3 = Role::create(['name' => 'Moderator']);
+        $role4 = Role::create(['name' => 'Admin']);
 
         $permissions = Permission::pluck('id')->toArray();
 
         $role1->permissions()->attach($permissions);
         $role2->permissions()->attach($permissions);
         $role3->permissions()->attach($permissions);
+        $role4->permissions()->attach($permissions);
 
         for($i = 1; $i <= 10; $i++) {
-            $user = User::create([
+            $user = User::create([ 
                 'name' => fake()->name(),
                 'email' => fake()->unique()->safeEmail(),
                 'password' => bcrypt('password')
