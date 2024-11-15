@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::patch('/users/{user}', [UserController::class,'update'])->name('users.update');
+    Route::post('/users', [UserController::class,'userStore'])->name('users.store');
 });
 
 Route::middleware('auth')->group(function () {

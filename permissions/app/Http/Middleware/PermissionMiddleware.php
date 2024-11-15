@@ -19,6 +19,14 @@ class PermissionMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {           
-        dd($request->route()->getName());
+        $user = Auth::user();
+        $route = Route::currentRouteName();
+        $permission = Permission::where('route', $route)->first();
+        if ($permission) {
+            if (!$user->hasPermission($permission->id)) {
+                return redirect()->route('dashboard')->with('error', 'You do not have permission to access this page.');
+            }
+        }
+        return $next($request);
     }
 }
