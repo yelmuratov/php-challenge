@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
@@ -14,26 +15,17 @@ class UserController extends Controller
         return view('tables', compact('users'));
     }
 
-    public function edit(Request $request, $id)
-    {       
-
-        $user = User::find($id);
-        $roles = Role::all()->toArray();
-        return view('user.edit', compact('user', 'roles'));
-    }
-
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $user = User::find($id);
-        $user->update($request->only('name', 'email'));
-        $user->roles()->sync($request->roles);
-        return redirect('/users')->withSuccess('User updated successfully.');
+        $user->update($request->all());
+        return redirect()->back()->withSuccess('User updated successfully.');
     }
 
     public function delete(Request $request, $id)
     {
         $user = User::find($id);
         $user->delete();
-        return redirect('/users')->withSuccess('User deleted successfully.');
+        return redirect()->back()->withSuccess('User deleted successfully.');
     }
 }

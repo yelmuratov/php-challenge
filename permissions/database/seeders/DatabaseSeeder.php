@@ -9,6 +9,8 @@ use Database\Seeders\RolesAndPermissionsSeeder;
 use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Route;
+use App\Models\Category;
+use App\Models\Product;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,29 +40,20 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $role1 = Role::create(['name' => 'Hr']);
-        $role2 = Role::create(['name' => 'accountant']);
-        $role3 = Role::create(['name' => 'Moderator']);
-        $role4 = Role::create(['name' => 'Admin']);
-
-        $permissions = Permission::pluck('id')->toArray();
-
-        $role1->permissions()->attach($permissions);
-        $role2->permissions()->attach($permissions);
-        $role3->permissions()->attach($permissions);
-        $role4->permissions()->attach($permissions);
-
-        for($i = 1; $i <= 10; $i++) {
-            $user = User::create([ 
-                'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
-                'password' => bcrypt('password')
+        for($i = 0; $i < 5; $i++) {
+            Category::create([
+                'name' => fake()->unique()->word()
             ]);
+        }
 
-            $rand = rand(1, 3);
-            for($j = 1; $j <= $rand; $j++) {
-                $user->roles()->attach(rand(1, 3));
-            }
+        for($i = 0; $i < 100; $i++) {
+            Product::create([
+                'category_id' => fake()->numberBetween(1, 5),
+                'name' => fake()->unique()->word(),
+                'description' => fake()->sentence(),
+                'price' => fake()->randomFloat(2, 1, 100),
+                'quantity' => fake()->numberBetween(1, 100)
+            ]);
         }
     }
 }

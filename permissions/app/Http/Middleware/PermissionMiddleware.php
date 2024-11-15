@@ -19,11 +19,6 @@ class PermissionMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {           
-        $routename = $request->route()->getName();
-        if(Auth::check() && Permission::where("key",$routename)->exists()){
-            return $next($request);
-        }
-        
-        return response('Unauthorized', 403);
+        dd($request->route()->getName());
     }
 }
