@@ -12,7 +12,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $users = User::all();
     return view('dashboard', compact('users'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','permission'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     })->name('user');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::patch('/users/{user}', [UserController::class,'update'])->name('users.update');
     Route::post('/users', [UserController::class,'userStore'])->name('users.store');
 });
